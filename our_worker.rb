@@ -29,6 +29,7 @@ class OurWorker
 
 
   # After retrying so many times, Sidekiq will call the sidekiq_retries_exhausted hook on your Worker if you've defined it. The hook receives the queued message as an argument. This hook is called right before Sidekiq moves the job to the DJQ.
+  # 在达到尝试次数后,调用sidekiq_retries_exhausted(hook method)中定义的代码
   sidekiq_retries_exhausted do |msg|
     Sidekiq.logger.warn "Failed #{msg['class']} with #{msg['args']}: #{msg['error_message']}"
   end
