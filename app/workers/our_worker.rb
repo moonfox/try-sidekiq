@@ -6,7 +6,6 @@ Sidekiq.configure_client do |config|
   config.redis = redis_conn
 end
 
-
 Sidekiq.configure_server do |config|
   config.redis = redis_conn
 end
@@ -21,6 +20,9 @@ class OurWorker
 
   # retry: 1 只重试一次,然后被放入Dead Job Queue
   sidekiq_options retry: 1
+
+  # 指定our_queue队列中的job由OurWorker处理
+  sidekiq_options queue: 'our_queue'
 
   # 自定义重试时间间隔
   # sidekiq_retry_in do |count|
@@ -42,6 +44,26 @@ class OurWorker
       puts "Really took quite a bit of effort"
     when "hard"
       sleep 10
+      puts "That was a bit of work"
+    else
+      sleep 1
+      puts "That wasn't a lot of effort"
+    end
+  end
+end
+
+class YourWorker
+  include Sidekiq::Worker
+  sidekiq_options queue: 'your_queue'
+
+  def perform(complexity)
+    case complexity
+    when "super_hard"
+      puts "charging a credit card..."
+      raise "Woops stuff god bad"
+      puts "Really took quite a bit of effort"
+    when "hard"
+      sleep 5
       puts "That was a bit of work"
     else
       sleep 1
