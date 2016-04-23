@@ -1,15 +1,3 @@
-require 'sidekiq'
-
-redis_conn = { db: 0}
-
-Sidekiq.configure_client do |config|
-  config.redis = redis_conn
-end
-
-Sidekiq.configure_server do |config|
-  config.redis = redis_conn
-end
-
 class OurWorker
   include Sidekiq::Worker
   # dead: 达到重试次数后,不放入Dead Job Queue, job直接被放弃
@@ -49,6 +37,10 @@ class OurWorker
       sleep 1
       puts "That wasn't a lot of effort"
     end
+  end
+
+  def self.create_user(name, age)
+    puts "create new user with name is #{name}, and age is #{age}"
   end
 end
 
