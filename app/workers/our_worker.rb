@@ -16,6 +16,7 @@ class OurWorker
   # 错误信息会记录在Redis里,键为zset类型,整个job的相关信息被Serialization后
   # 包括backtrace信息,所以当启用backtrack后,如果错误的job特别多,则会导致redis占用大量的内存
   # 这个选项要小心使用,否则会占用量大内存
+  # backtrace can be true, false or an integer number of lines to save, default false
   sidekiq_options backtrace: true
 
   # 自定义重试时间间隔
