@@ -1,5 +1,8 @@
 class OurWorker
   include Sidekiq::Worker
+  # default_worker_options: 设置Sidekiq默认选项
+  # Sidekiq.default_worker_options = { 'backtrace' => true }
+
   # dead: 达到重试次数后,不放入Dead Job Queue, job直接被放弃
   # sidekiq_options retry: 2, dead: false
 
