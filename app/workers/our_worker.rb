@@ -12,6 +12,12 @@ class OurWorker
   # 指定our_queue队列中的job由OurWorker处理
   sidekiq_options queue: 'our_queue'
 
+  # backtrace: 使用backtrace记录错误,这可能会使redis占用大量内存(当有大量失败的job时)
+  # 错误信息会记录在Redis里,键为zset类型,整个job的相关信息被Serialization后
+  # 包括backtrace信息,所以当启用backtrack后,如果错误的job特别多,则会导致redis占用大量的内存
+  # 这个选项要小心使用,否则会占用量大内存
+  sidekiq_options backtrace: true
+
   # 自定义重试时间间隔
   # sidekiq_retry_in do |count|
   #   10 * (count + 1) # (i.e. 10, 20, 30, 40)
@@ -46,7 +52,7 @@ end
 
 class YourWorker
   include Sidekiq::Worker
-  sidekiq_options queue: 'your_queue'
+  sidekiq_options queue: 'your_queue', retry: 5, backtrace: true
 
   def perform(complexity)
     case complexity
