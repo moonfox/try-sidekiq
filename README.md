@@ -7,3 +7,8 @@ try and research sidekiq
 2、sidekiq -c 20 或在sidekiq.yml中设置
 
 3、数据库pool: 如果与数据库相连(ActiveRecord)，要保持连接池的数据等于或接3近sidekiq线程的总数量:  pool: 25
+
+# Sidekiq.remove_delay! 
+禁用Extension 方法,  只对Rails application 有效, 会移走下列被其扩展的module
+ 
+[Sidekiq::Extensions::ActiveRecord, Sidekiq::Extensions::ActionMailer, Sidekiq::Extensions::Klass]
