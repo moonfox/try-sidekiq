@@ -10,5 +10,11 @@ try and research sidekiq
 
 # Sidekiq.remove_delay! 
 禁用Extension 方法,  只对Rails application 有效, 会移走下列被其扩展的module
- 
+
 [Sidekiq::Extensions::ActiveRecord, Sidekiq::Extensions::ActionMailer, Sidekiq::Extensions::Klass]
+
+#停止Sidekiq
+
+bundle exec sidekiqctl stop
+
+默认为等待10秒, 如果10秒后还有没有完成的job,则强制kill掉
