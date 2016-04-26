@@ -18,3 +18,12 @@ try and research sidekiq
 bundle exec sidekiqctl stop
 
 默认为等待10秒, 如果10秒后还有没有完成的job,则强制kill掉
+
+#Daemonization
+后台进程监控(守护进程)
+
+不建议使用-d或使用&符将sidekiq放入后台
+
+建议使用专门的后台进程管理程序(server daemon)systemd or upstart去管理sidekiq的守护进程。Ruby可以的类似工具有God,这些工作可以很好的在sidekiq Crash立刻将其重新启动
+
+PS: Upstart还可以在机器重新启动后，自动启动sidekiq
